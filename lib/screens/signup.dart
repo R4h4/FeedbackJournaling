@@ -9,13 +9,13 @@ import 'package:flutter_feedback_app/screens/confirmation.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
-  _SignUpScreenState createState() => new _SignUpScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  User _user = new User();
-  final userService = new UserService(userPool);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  User _user = User();
+  final userService = UserService(userPool);
 
   void submit(BuildContext context) async {
     _formKey.currentState.save();
@@ -38,9 +38,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       message = 'Unknown error occurred';
     }
 
-    final snackBar = new SnackBar(
-      content: new Text(message),
-      action: new SnackBarAction(
+    final snackBar = SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
         label: 'OK',
         onPressed: () {
           if (signUpSuccess) {
@@ -48,15 +48,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             if (!_user.confirmed) {
               Navigator.push(
                 context,
-                new MaterialPageRoute(
+                MaterialPageRoute(
                     builder: (context) =>
-                    new ConfirmationScreen(email: _user.email)),
+                    ConfirmationScreen(email: _user.email)),
               );
             }
           }
         },
       ),
-      duration: new Duration(seconds: 30),
+      duration: Duration(seconds: 30),
     );
 
     Scaffold.of(context).showSnackBar(snackBar);
@@ -65,30 +65,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Sign Up'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Sign Up'),
       ),
-      body: new Builder(
+      body: Builder(
         builder: (BuildContext context) {
-          return new Container(
-            child: new Form(
+          return Container(
+            child: Form(
               key: _formKey,
-              child: new ListView(
+              child: ListView(
                 children: <Widget>[
-                  new ListTile(
+                  ListTile(
                     leading: const Icon(Icons.account_box),
-                    title: new TextFormField(
-                      decoration: new InputDecoration(labelText: 'Name'),
+                    title: TextFormField(
+                      decoration: InputDecoration(labelText: 'Name'),
                       onSaved: (String name) {
                         _user.name = name;
                       },
                     ),
                   ),
-                  new ListTile(
+                  ListTile(
                     leading: const Icon(Icons.email),
-                    title: new TextFormField(
-                      decoration: new InputDecoration(
+                    title: TextFormField(
+                      decoration: InputDecoration(
                           hintText: 'example@inspire.my', labelText: 'Email'),
                       keyboardType: TextInputType.emailAddress,
                       onSaved: (String email) {
@@ -96,10 +96,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                   ),
-                  new ListTile(
+                  ListTile(
                     leading: const Icon(Icons.lock),
-                    title: new TextFormField(
-                      decoration: new InputDecoration(
+                    title: TextFormField(
+                      decoration: InputDecoration(
                         hintText: 'Password!',
                       ),
                       obscureText: true,
@@ -108,20 +108,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                   ),
-                  new Container(
-                    padding: new EdgeInsets.all(20.0),
+                  Container(
+                    padding: EdgeInsets.all(20.0),
                     width: screenSize.width,
-                    child: new RaisedButton(
-                      child: new Text(
+                    child: RaisedButton(
+                      child: Text(
                         'Sign Up',
-                        style: new TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
                         submit(context);
                       },
                       color: Colors.blue,
                     ),
-                    margin: new EdgeInsets.only(
+                    margin: EdgeInsets.only(
                       top: 10.0,
                     ),
                   ),

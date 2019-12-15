@@ -9,10 +9,11 @@ import '../models/user.dart';
 // Setup AWS User Pool Id & Client Id settings here:
 const _awsUserPoolId = 'ap-southeast-1_04NIH0tIU';
 const _awsClientId = '4do8vttcff3o42p5ud8mioemhv';
+const _identityPoolId = 'ap-southeast-1:de5af33d-8081-473a-b0e4-9ef324f38124';
 
 
 // Setup endpoints here:
-/// const _region = 'ap-southeast-1';
+const _region = 'ap-southeast-1';
 /// const _endpoint =
 ///    'https://xxxxxxxxxx.execute-api.ap-southeast-1.amazonaws.com/dev';
 
@@ -96,14 +97,14 @@ class UserService {
   }
 
   /// Retrieve user credentials -- for use with other AWS services
-  /// Future<CognitoCredentials> getCredentials() async {
-  ///  if (_cognitoUser == null || _session == null) {
-  ///    return null;
-  ///  }
-  ///  credentials = new CognitoCredentials(_identityPoolId, _userPool);
-  ///  await credentials.getAwsCredentials(_session.getIdToken().getJwtToken());
-  ///  return credentials;
-  ///}
+  Future<CognitoCredentials> getCredentials() async {
+    if (_cognitoUser == null || _session == null) {
+      return null;
+    }
+    credentials = new CognitoCredentials(_identityPoolId, _userPool);
+    await credentials.getAwsCredentials(_session.getIdToken().getJwtToken());
+    return credentials;
+  }
 
   /// Login user
   Future<User> login(String email, String password) async {

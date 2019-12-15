@@ -14,13 +14,13 @@ class LoginScreen extends StatefulWidget {
   final String email;
 
   @override
-  _LoginScreenState createState() => new _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  final _userService = new UserService(userPool);
-  User _user = new User();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _userService = UserService(userPool);
+  User _user = User();
   bool _isAuthenticated = false;
 
   Future<UserService> _getValues() async {
@@ -50,9 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       message = 'An unknown error occurred';
     }
-    final snackBar = new SnackBar(
-      content: new Text(message),
-      action: new SnackBarAction(
+    final snackBar = SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
         label: 'OK',
         onPressed: () async {
           if (_user.hasAccess) {
@@ -60,15 +60,15 @@ class _LoginScreenState extends State<LoginScreen> {
             if (!_user.confirmed) {
               Navigator.push(
                 context,
-                new MaterialPageRoute(
+                MaterialPageRoute(
                     builder: (context) =>
-                    new ConfirmationScreen(email: _user.email)),
+                    ConfirmationScreen(email: _user.email)),
               );
             }
           }
         },
       ),
-      duration: new Duration(seconds: 30),
+      duration: Duration(seconds: 30),
     );
 
     Scaffold.of(context).showSnackBar(snackBar);
@@ -76,30 +76,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new FutureBuilder(
+    return FutureBuilder(
         future: _getValues(),
         builder: (context, AsyncSnapshot<UserService> snapshot) {
           if (snapshot.hasData) {
             if (_isAuthenticated) {
-              return new MemberOverviewScreen();
+              return MemberOverviewScreen();
             }
             final Size screenSize = MediaQuery.of(context).size;
-            return new Scaffold(
-              appBar: new AppBar(
-                title: new Text('Login'),
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Login'),
               ),
-              body: new Builder(
+              body: Builder(
                 builder: (BuildContext context) {
-                  return new Container(
-                    child: new Form(
+                  return Container(
+                    child: Form(
                       key: _formKey,
-                      child: new ListView(
+                      child: ListView(
                         children: <Widget>[
-                          new ListTile(
+                          ListTile(
                             leading: const Icon(Icons.email),
-                            title: new TextFormField(
+                            title: TextFormField(
                               initialValue: widget.email,
-                              decoration: new InputDecoration(
+                              decoration: InputDecoration(
                                   hintText: 'example@inspire.my',
                                   labelText: 'Email'),
                               keyboardType: TextInputType.emailAddress,
@@ -108,31 +108,31 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                           ),
-                          new ListTile(
+                          ListTile(
                             leading: const Icon(Icons.lock),
-                            title: new TextFormField(
+                            title: TextFormField(
                               decoration:
-                              new InputDecoration(labelText: 'Password'),
+                              InputDecoration(labelText: 'Password'),
                               obscureText: true,
                               onSaved: (String password) {
                                 _user.password = password;
                               },
                             ),
                           ),
-                          new Container(
-                            padding: new EdgeInsets.all(20.0),
+                          Container(
+                            padding: EdgeInsets.all(20.0),
                             width: screenSize.width,
-                            child: new RaisedButton(
-                              child: new Text(
+                            child: RaisedButton(
+                              child: Text(
                                 'Login',
-                                style: new TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
                                 submit(context);
                               },
                               color: Colors.blue,
                             ),
-                            margin: new EdgeInsets.only(
+                            margin: EdgeInsets.only(
                               top: 10.0,
                             ),
                           ),
@@ -144,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             );
           }
-          return new Scaffold(
-              appBar: new AppBar(title: new Text('Loading...')));
+          return Scaffold(
+              appBar: AppBar(title: Text('Loading...')));
         });
   }
 }
